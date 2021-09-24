@@ -3,6 +3,7 @@ package com.cas.socket;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class SocketServer {
     public static void main(String[] args) throws Exception {
@@ -24,7 +25,7 @@ public class SocketServer {
         OutputStream os = null;
         PrintWriter pw = null;
         is = socket.getInputStream();     //获取输入流
-        isr = new InputStreamReader(is, "UTF-8");
+        isr = new InputStreamReader(is, StandardCharsets.UTF_8);
         br = new BufferedReader(isr);
         String info = null;
         while ((info = br.readLine()) != null) {//循环读取客户端的信息

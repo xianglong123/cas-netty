@@ -30,17 +30,9 @@ public class MainActivity  {
         Socket socket = new Socket("127.0.0.1", 12345);
         // 2、获取输出流，向服务器端发送消息
         OutputStream out = socket.getOutputStream();
-
         out.write("wo".getBytes());
-
         out.flush();
-
         socket.close();
-
-
-
-
-
     }
 
 }
