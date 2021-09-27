@@ -1,6 +1,7 @@
 package com.cas.IO;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
 
 /**
  * @author xiang_long

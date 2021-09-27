@@ -1,6 +1,10 @@
 package com.cas.IO.data;
 
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author xiang_long
@@ -29,7 +33,36 @@ public class DataOutputStreamTest {
 //        test2Test1ByWriter();
 //        test2Test1ByByteArray();
 //        test2Test1ByObj();
-        test2Test1ByBuffer();
+//        test2Test1ByBuffer();
+        test2Test1TransferTo();
+//        test2Test1FileCopy();
+    }
+
+    /**
+     * 利用工具直接拷贝
+     * 特点：会报错
+     * @throws IOException
+     */
+    private static void test2Test1FileCopy() throws IOException {
+        Files.copy(Paths.get("/Users/xianglong/IdeaProjects/cas-netty/src/test/java/com/cas/IO/data/test.txt"),Paths.get("/Users/xianglong/IdeaProjects/cas-netty/src/test/java/com/cas/IO/data/test1.txt"));
+    }
+
+
+        /**
+         * 通过channel 的 transferTo
+         * 特点：效率高，代码简洁，底层会用零拷贝进行优化
+         * @throws IOException
+         */
+    private static void test2Test1TransferTo() throws IOException {
+        FileChannel form = in1.getChannel();
+        FileChannel to = out1.getChannel();
+        long size = form.size();
+
+        for (long left = size; left > 0;) {
+            System.out.println("position:" + (size - left) + " left:" + left);
+            // 最大传输2G数据，大于2G数据循环传输
+            left -= form.transferTo(size - left, left, to);
+        }
     }
 
     /**
