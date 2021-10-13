@@ -25,25 +25,45 @@ public class EventLoopServer {
     private static final Logger log = LoggerFactory.getLogger(EventLoopServer.class);
 
     public static void main(String[] args) {
-        DefaultEventLoop group = new DefaultEventLoop();
+//        DefaultEventLoop group = new DefaultEventLoop();
+//        new ServerBootstrap()
+//                .group(new NioEventLoopGroup(), new NioEventLoopGroup(2))
+//                .channel(NioServerSocketChannel.class)
+//                .childHandler(new ChannelInitializer<NioSocketChannel>() {
+//                    @Override
+//                    protected void initChannel(NioSocketChannel ch) throws Exception {
+//                        ch.pipeline().addLast("handler1", new ChannelInboundHandlerAdapter(){
+//                            @Override
+//                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+//                                ByteBuf buf = (ByteBuf) msg;
+//                                log.debug(buf.toString(Charset.defaultCharset()));
+//                                ctx.fireChannelRead(msg); // 将消息传递到下一个handler
+//                            }
+//                        }).addLast(group, "handler2", new ChannelInboundHandlerAdapter(){
+//                            @Override
+//                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+//                                ByteBuf buf = (ByteBuf) msg;
+//                                log.debug(buf.toString(Charset.defaultCharset()));
+//                            }
+//                        });
+//                    }
+//                }).bind(9011);
+        aVoid();
+    }
+
+
+    private static void aVoid() {
         new ServerBootstrap()
-                .group(new NioEventLoopGroup(), new NioEventLoopGroup(2))
+                .group(new NioEventLoopGroup())
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast("handler1", new ChannelInboundHandlerAdapter(){
+                        ch.pipeline().addLast(new ChannelInboundHandlerAdapter(){
                             @Override
                             public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
                                 ByteBuf buf = (ByteBuf) msg;
-                                log.debug(buf.toString(Charset.defaultCharset()));
-                                ctx.fireChannelRead(msg); // 将消息传递到下一个handler
-                            }
-                        }).addLast(group, "handler2", new ChannelInboundHandlerAdapter(){
-                            @Override
-                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                                ByteBuf buf = (ByteBuf) msg;
-                                log.debug(buf.toString(Charset.defaultCharset()));
+                                System.out.println("收到的数据["+ buf.toString(Charset.defaultCharset()) +"]");
                             }
                         });
                     }

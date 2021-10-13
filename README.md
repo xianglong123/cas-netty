@@ -45,3 +45,17 @@
     该选项是需要等到发送的数据量最大的时候，一次性发送数据，适用于文件传输。
 
 
+### Netty 组建
+    1、EventLoop
+#### 2、Channel
+    * close() 可以用来关闭channel
+    * closeFuture() 用来处理channel的关闭
+    * sync 方法作用是同步等待channel关闭
+    * addListener方法是异步等待channel关闭
+    * pipeline() 方法添加处理器
+    * write() 方法将数据写入
+    * writeAndFlush 方法将数据写入并刷出
+    
+    3、Future & Promise
+    4、Handler & Pipline
+    5、ByteBuf
