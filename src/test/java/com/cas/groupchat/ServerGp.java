@@ -39,12 +39,19 @@ public class ServerGp {
         NioEventLoopGroup work = new NioEventLoopGroup();
 
         try {
+            // 1、启动器，负责组装 netty 组建， 启动服务器
             ServerBootstrap serverBootstrap = new ServerBootstrap();
+            // 2、BossEventLoop, WorkerEventLoop(selector,thread), group 组
             serverBootstrap.group(boss, work)
+                    // 3、选择 服务器的 ServerSocketChannel 实现
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.SO_BACKLOG, 124)
                     .childOption(ChannelOption.SO_KEEPALIVE, true)
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                    // 4、boss 负责处理连接 worker(child) 负责处理读写，决定了 worker(child) 能执行的内容
+                    .childHandler(
+                            // 5、channel 代表和客户端进行数据读写的通道 Initializer 初始化
+                            new ChannelInitializer<SocketChannel>() {
+                                // 建立连接后连接后，调用初始化方法
                         @Override
                         protected void initChannel(SocketChannel ch) {
                             // 获取到pipeline
