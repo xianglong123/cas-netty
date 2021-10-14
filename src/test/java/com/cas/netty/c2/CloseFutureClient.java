@@ -13,7 +13,6 @@ import io.netty.handler.logging.LoggingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Scanner;
 
@@ -56,9 +55,12 @@ public class CloseFutureClient {
 
         // 获取 closeFuture 对象， 1）同步处理关闭  2）异步处理关闭
         ChannelFuture closeFuture = channel.closeFuture();
+        // 1.1 同步关闭线程池
         /*System.out.println("waiting close ...");
         closeFuture.sync();
         System.out.println("处理关闭之后的操作");*/
+
+        // 1.2 异步关闭线程池 - 异步回调方法
         closeFuture.addListener((ChannelFutureListener) future -> {
             System.out.println("处理关闭之后的操作");
             group.shutdownGracefully(); // 优雅的停止线程组

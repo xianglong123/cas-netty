@@ -1,19 +1,12 @@
 package com.cas.netty.c1;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.DefaultEventLoop;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.charset.Charset;
 
 /**
  * @author xiang_long
@@ -53,19 +46,14 @@ public class EventLoopServer {
 
 
     private static void aVoid() {
+        NioEventLoopGroup group = new NioEventLoopGroup();
         new ServerBootstrap()
-                .group(new NioEventLoopGroup())
+                .group(group)
                 .channel(NioServerSocketChannel.class)
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     @Override
                     protected void initChannel(NioSocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ChannelInboundHandlerAdapter(){
-                            @Override
-                            public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-                                ByteBuf buf = (ByteBuf) msg;
-                                System.out.println("收到的数据["+ buf.toString(Charset.defaultCharset()) +"]");
-                            }
-                        });
+                        ch.pipeline().addLast(new ServerHandler());
                     }
                 }).bind(9011);
     }

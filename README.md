@@ -56,6 +56,10 @@
     * write() 方法将数据写入
     * writeAndFlush 方法将数据写入并刷出
     
-    3、Future & Promise
+#### 3、Future & Promise
+[netty future](/src/main/resources/static/img/nettyFuture.jpg)
     4、Handler & Pipline
     5、ByteBuf
+    
+    
+###
