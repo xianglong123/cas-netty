@@ -28,7 +28,7 @@ public class TestNettyPromise {
             // 3、任意一个线程执行计算，计算完毕后向 promise 填充结果
             System.out.println("开始计算...");
             try {
-                int i = 1 / 0;
+                // int i = 1 / 0;
                 Thread.sleep(1000);
                 promise.setSuccess(90);
             } catch (InterruptedException e) {
