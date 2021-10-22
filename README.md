@@ -59,7 +59,17 @@
 #### 3、Future & Promise
 [netty future](/src/main/resources/static/img/nettyFuture.jpg)
     4、Handler & Pipline
-    5、ByteBuf
+    
+#### 5、ByteBuf
+    双指针 rindex - windex - capital - max
+    |***read***|***write***|***可扩容***|
+    
+    优势：
+    * 池化 - 可以重用池中ByteBuf实例，更节约内存，减少内存溢出的可能
+    * 读写指针分离，不需要像ByteBuffer一样切换读写模式
+    * 可以自动扩容
+    * 支持链式调用，使用更流畅
+    * 很多地方体现零拷贝，例如 slice、duplicate、CompositeByteBuf
     
     
 ###

@@ -15,7 +15,8 @@ import static io.netty.util.internal.StringUtil.NEWLINE;
 public class TestByteBuf {
 
     public static void main(String[] args) {
-        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer();
+        ByteBuf buffer = ByteBufAllocator.DEFAULT.buffer(); // 默认256，支持自动扩容
+        buffer.writeBoolean(false);
         /**
          * class io.netty.buffer.PooledUnsafeDirectByteBuf
          * 池化 直接内存
@@ -36,7 +37,10 @@ public class TestByteBuf {
 
     }
 
-    private static void log(ByteBuf byteBuf) {
+    /**
+     * @param byteBuf
+     */
+    public static void log(ByteBuf byteBuf) {
         int length = byteBuf.readableBytes();
         int rows = length / 16 + (length % 5 == 0 ? 0 : 1) + 4;
         StringBuilder buf = new StringBuilder(rows * 80 * 2)

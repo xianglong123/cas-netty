@@ -18,21 +18,6 @@ import io.netty.handler.codec.string.StringEncoder;
 public class EventLoopClient {
 
     public static void main(String[] args) throws InterruptedException {
-//        Channel channel = new Bootstrap()
-//                .group(new NioEventLoopGroup())
-//                .channel(NioSocketChannel.class)
-//                .handler(new ChannelInitializer<NioSocketChannel>() {
-//                    @Override
-//                    protected void initChannel(NioSocketChannel ch) throws Exception {
-//                        ch.pipeline().addLast(new StringEncoder());
-//                    }
-//                })
-//                .connect("localhost", 9011)
-//                .sync()
-//                .channel();
-//        System.out.println(channel);
-//        System.out.println("");
-//        channel.close();
         bVoid();
     }
 
@@ -57,14 +42,11 @@ public class EventLoopClient {
 
 
         // 2.2 使用addListener 方法异步处理结果
-        channelFuture.addListener(new ChannelFutureListener() {
-            @Override
-            public void operationComplete(ChannelFuture future) throws Exception {
-                // 在nio线程连接建立好之后，会调用operationComplete
-                Channel channel = future.channel();
-                System.out.println("channel: " + channel);
-                channel.writeAndFlush("hello world");
-            }
+        channelFuture.addListener((ChannelFutureListener) future -> {
+            // 在nio线程连接建立好之后，会调用operationComplete
+            Channel channel = future.channel();
+            System.out.println("channel: " + channel);
+            channel.writeAndFlush("hello world");
         });
 
     }

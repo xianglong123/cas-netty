@@ -19,7 +19,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("服务下线[" + ctx.channel().remoteAddress() + "]");
-        ctx.close();
+//        ctx.close();
     }
 
     @Override
