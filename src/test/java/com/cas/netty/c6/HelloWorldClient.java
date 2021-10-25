@@ -18,26 +18,39 @@ import io.netty.channel.socket.nio.NioSocketChannel;
  */
 public class HelloWorldClient {
 
-    public static void main(String[] args) throws InterruptedException {
-        ChannelFuture channelFuture = new Bootstrap().group(new NioEventLoopGroup())
-                .channel(NioSocketChannel.class)
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(SocketChannel ch) throws Exception {
-                        ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
-                            @Override
-                            public void channelActive(ChannelHandlerContext ctx) throws Exception {
-                                for (int i = 0; i < 10; i++) {
-                                    ByteBuf buf = ctx.alloc().buffer(16);
-                                    buf.writeBytes(new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16});
-                                    ctx.writeAndFlush(buf);
-                                }
+    public static void main(String[] args) {
+        for (int i = 0; i < 10; i++) {
+            send();
+        }
+        System.out.println("finish");
+    }
 
-                            }
-                        });
-                    }
-                }).connect("127.0.0.1", 9014).sync();
-        channelFuture.channel().closeFuture().sync();
+    private static void send() {
+        NioEventLoopGroup work = new NioEventLoopGroup();
+        try {
+            ChannelFuture channelFuture = new Bootstrap().group(work)
+                    .channel(NioSocketChannel.class)
+                    .handler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new ChannelInboundHandlerAdapter() {
+                                @Override
+                                public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                    for (int i = 0; i < 10; i++) {
+                                        ByteBuf buf = ctx.alloc().buffer(16);
+                                        buf.writeBytes(new byte[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18});
+                                        ctx.writeAndFlush(buf);
+                                    }
+                                }
+                            });
+                        }
+                    }).connect("127.0.0.1", 9014).sync();
+            channelFuture.channel().closeFuture().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            work.shutdownGracefully();
+        }
     }
 
 }

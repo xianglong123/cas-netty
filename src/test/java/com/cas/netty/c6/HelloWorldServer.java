@@ -1,6 +1,7 @@
 package com.cas.netty.c6;
 
 import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.AdaptiveRecvByteBufAllocator;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -22,7 +23,8 @@ public class HelloWorldServer {
                 .group(new NioEventLoopGroup(), new NioEventLoopGroup())
                 .channel(NioServerSocketChannel.class)
                 // 设置接受缓冲区大小
-                .option(ChannelOption.SO_RCVBUF, 10)
+//                .option(ChannelOption.SO_RCVBUF, 10)
+                .childOption(ChannelOption.RCVBUF_ALLOCATOR, new AdaptiveRecvByteBufAllocator(16, 16, 16))
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
