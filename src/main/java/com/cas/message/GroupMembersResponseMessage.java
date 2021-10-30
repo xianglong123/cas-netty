@@ -26,6 +26,6 @@ public class GroupMembersResponseMessage extends AbstractResponseMessage{
 
     @Override
     public int getMessageType() {
-        return LoginResponseMessage;
+        return GroupMembersResponseMessage;
     }
 }

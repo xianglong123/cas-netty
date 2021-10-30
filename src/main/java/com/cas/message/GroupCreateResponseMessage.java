@@ -38,6 +38,6 @@ public class GroupCreateResponseMessage extends AbstractResponseMessage{
 
     @Override
     public int getMessageType() {
-        return LoginResponseMessage;
+        return GroupCreateResponseMessage;
     }
 }

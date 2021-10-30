@@ -5,15 +5,13 @@ import com.cas.message.*;
 import com.cas.protocol.MessageCodecSharable;
 import com.cas.protocol.ProcotolFrameDecoder;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.ChannelInitializer;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,6 +48,14 @@ public class ChatClient {
                             ch.pipeline().addLast(new ProcotolFrameDecoder());
 //                            ch.pipeline().addLast(LOGGING_HANDLER);
                             ch.pipeline().addLast(MESSAGE_CODEC);
+                            ch.pipeline().addLast(new IdleStateHandler(0, 3, 0));
+                            ch.pipeline().addLast(new ChannelDuplexHandler(){
+                                @Override
+                                public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+                                    System.out.println("3s 没有发送数据了，发送一个心跳包");
+                                    ctx.writeAndFlush(new PingMessage());
+                                }
+                            });
                             ch.pipeline().addLast("client handler", new ChannelInboundHandlerAdapter() {
 
                                 // 接收消息

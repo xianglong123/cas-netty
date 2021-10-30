@@ -38,6 +38,6 @@ public class ChatResponseMessage extends AbstractResponseMessage{
 
     @Override
     public int getMessageType() {
-        return LoginResponseMessage;
+        return ChatResponseMessage;
     }
 }

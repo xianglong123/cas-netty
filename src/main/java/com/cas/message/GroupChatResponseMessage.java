@@ -38,6 +38,6 @@ public class GroupChatResponseMessage extends AbstractResponseMessage{
 
     @Override
     public int getMessageType() {
-        return LoginResponseMessage;
+        return GroupChatResponseMessage;
     }
 }
