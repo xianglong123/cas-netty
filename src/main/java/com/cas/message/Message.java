@@ -26,6 +26,14 @@ public abstract class Message implements Serializable {
 
     private int messageType;
 
+    public int getSequenceId() {
+        return sequenceId;
+    }
+
+    public void setSequenceId(int sequenceId) {
+        this.sequenceId = sequenceId;
+    }
+
     public abstract int getMessageType();
 
     public static final int LoginRequestMessage = 0;
@@ -44,6 +52,9 @@ public abstract class Message implements Serializable {
     public static final int GroupMembersResponseMessage = 13;
     public static final int PingMessage = 14;
     public static final int PongMessage = 15;
+    // 添加RPC消息类型
+    public static final int RPC_MESSAGE_TYPE_REQUEST = 101;
+    public static final int  RPC_MESSAGE_TYPE_RESPONSE = 102;
     private static final Map<Integer, Class<? extends Message>> messageClasses = new HashMap<>();
 
     static {
@@ -61,5 +72,8 @@ public abstract class Message implements Serializable {
         messageClasses.put(GroupChatResponseMessage, GroupChatResponseMessage.class);
         messageClasses.put(GroupMembersRequestMessage, GroupMembersRequestMessage.class);
         messageClasses.put(GroupMembersResponseMessage, GroupMembersResponseMessage.class);
+        // 将消息类型放入消息类对象Map中
+        messageClasses.put(RPC_MESSAGE_TYPE_REQUEST, RpcRequestMessage.class);
+        messageClasses.put(RPC_MESSAGE_TYPE_RESPONSE, RpcResponseMessage.class);
     }
 }

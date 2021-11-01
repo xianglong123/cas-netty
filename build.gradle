@@ -21,6 +21,7 @@ dependencies {
 //    implementation 'org.slf4j:slf4j-simple:1.7.25'
     implementation "org.projectlombok:lombok:1.18.12"
     implementation 'com.alibaba:fastjson:1.2.61'
+    implementation "com.google.code.gson:gson:2.8.2"
 
 }
 

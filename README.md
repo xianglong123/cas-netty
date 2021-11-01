@@ -72,4 +72,9 @@
     * 很多地方体现零拷贝，例如 slice、duplicate、CompositeByteBuf
     
     
-###
+### 参数调优
+    1） CONNECT_TIMEOUT_MILLIS
+    * 用在客户端建立连接时，如果在指定毫秒内无法连接，会跑出timeout 异常
+    * 注意：Netty 中不要用成了SO_TIMEOUT 主要用在阻塞 IO，而 Netty 是非阻塞 IO
+
+    博客：https://nyimac.gitee.io/2021/04/25/Netty%E5%9F%BA%E7%A1%80/#%E4%BA%94%E3%80%81%E4%BC%98%E5%8C%96
