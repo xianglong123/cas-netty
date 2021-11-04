@@ -46,7 +46,7 @@ public class RpcServer {
             Channel channel = serverBootstrap.bind(9017).sync().channel();
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
-            log.error("server error", e);
+            log.error("server error ", e);
         } finally {
             boss.shutdownGracefully();
             worker.shutdownGracefully();
